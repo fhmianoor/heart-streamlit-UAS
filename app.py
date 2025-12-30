@@ -7,7 +7,7 @@ st.set_page_config(page_title="Heart Disease Detection", page_icon="🫀")
 model = joblib.load("model/heart_model.pkl")
 
 st.title(" Deteksi Penyakit Jantung")
-with st.expander("📘 Penjelasan Istilah Fitur"):
+with st.expander("Penjelasan Istilah Fitur"):
     st.markdown("""
 ### Informasi Fitur yang Digunakan
 
@@ -37,7 +37,6 @@ with st.expander("📘 Penjelasan Istilah Fitur"):
 """)
 
 
-
 data = {
     "Age": st.number_input("Age", 1, 120, 45),
     "Sex": st.selectbox("Sex", ["M", "F"]),
@@ -58,7 +57,7 @@ if st.button("Predict"):
     proba = model.predict_proba(input_df)[0][1]
     pred = model.predict(input_df)[0]
 
-    st.write(f"🔍 Probability of Heart Disease: **{proba:.2%}**")
+    st.write(f"Probability of Heart Disease: **{proba:.2%}**")
 
     if pred == 1:
         st.error("High Risk of Heart Disease")
