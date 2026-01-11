@@ -5,6 +5,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import cross_val_score
 import joblib
 import os
 
@@ -39,7 +40,7 @@ model = Pipeline(steps=[
         n_estimators=300,
         max_depth=12,
         min_samples_split=5,
-        random_state=42
+        random_state=45
     ))
 ])
 
@@ -55,9 +56,16 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 acc = accuracy_score(y_test, y_pred)
 
+scores = cross_val_score(
+    model, X, y,
+    cv=5,
+    scoring="accuracy"
+)
 
 os.makedirs("model", exist_ok=True)
 joblib.dump(model, "model/heart_model.pkl")
 
+print("Mean:", scores.mean())
+print("Std:", scores.std())
 print(f"Model trained successfully")
 print(f"Accuracy: {acc:.2%}")
